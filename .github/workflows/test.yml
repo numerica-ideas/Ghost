@@ -40,7 +40,7 @@ jobs:
     if: github.event_name == 'push' || (github.event_name == 'pull_request' && !startsWith(github.head_ref, 'renovate/'))
     strategy:
       matrix:
-        DB: ['sqlite3', 'mysql']
+        DB: ['sqlite3', 'mysql5', 'mysql8']
     env:
       database__client: ${{ matrix.DB }}
       database__connection__filename: /dev/shm/ghost-test.db
@@ -63,12 +63,19 @@ jobs:
 
       - name: Shutdown MySQL
         run: sudo service mysql stop
-        if: matrix.DB == 'mysql'
+        if: matrix.DB == 'mysql5' || matrix.DB == 'mysql8'
 
       - uses: mirromutth/mysql-action@v1.1
-        if: matrix.DB == 'mysql'
+        if: matrix.DB == 'mysql5'
         with:
           mysql version: '5.7'
+          mysql database: 'ghost_testing'
+          mysql root password: 'root'
+
+      - uses: mirromutth/mysql-action@v1.1
+        if: matrix.DB == 'mysql8'
+        with:
+          mysql version: '8.0'
           mysql database: 'ghost_testing'
           mysql root password: 'root'
 
@@ -89,7 +96,9 @@ jobs:
         env:
           - DB: sqlite3
             NODE_ENV: testing
-          - DB: mysql
+          - DB: mysql5
+            NODE_ENV: testing-mysql
+          - DB: mysql8
             NODE_ENV: testing-mysql
     env:
       DB: ${{ matrix.env.DB }}
@@ -107,12 +116,19 @@ jobs:
 
       - name: Shutdown MySQL
         run: sudo service mysql stop
-        if: matrix.env.DB == 'mysql'
+        if: matrix.env.DB == 'mysql5' || matrix.env.DB == 'mysql8'
 
       - uses: mirromutth/mysql-action@v1.1
-        if: matrix.env.DB == 'mysql'
+        if: matrix.env.DB == 'mysql5'
         with:
           mysql version: '5.7'
+          mysql database: 'ghost_testing'
+          mysql root password: 'root'
+
+      - uses: mirromutth/mysql-action@v1.1
+        if: matrix.env.DB == 'mysql8'
+        with:
+          mysql version: '8.0'
           mysql database: 'ghost_testing'
           mysql root password: 'root'
 
