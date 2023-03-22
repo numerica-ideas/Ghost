@@ -112,7 +112,7 @@
     "bluebird": "3.7.2",
     "body-parser": "1.19.1",
     "bookshelf": "1.2.0",
-    "bookshelf-relations": "2.3.0",
+    "bookshelf-relations": "2.5.1",
     "brute-knex": "4.0.1",
     "bson-objectid": "2.0.2",
     "bthreads": "0.5.1",
