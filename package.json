@@ -178,7 +178,7 @@
   },
   "optionalDependencies": {
     "@tryghost/html-to-mobiledoc": "1.8.3",
-    "sqlite3": "5.0.2"
+    "sqlite3": "5.1.6"
   },
   "devDependencies": {
     "@ethanresnick/chai-jest-snapshot": "3.0.0",
